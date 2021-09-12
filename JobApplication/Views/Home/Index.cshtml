@@ -1,0 +1,75 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using Microsoft.CodeAnalysis
+@using System.Web
+@model IEnumerable<JobApplication>
+
+@{
+    ViewData["Title"] = "Job Applications";
+}
+
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Job Applications List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="JobApplication" asp-action="Index" class="btn btn-primary">
+                <i class="fas fa-plus"></i> &nbsp; Create New Application
+            </a>
+        </div>
+    </div>
+
+    <br /><br />
+
+    @if (Model.Any())
+    {
+        <table class="table table-bordered table-striped" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Company</th>
+                    <th>Description</th>
+                    <th>Url</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var job in Model)
+                {
+
+                    <tr data-toggle="collapse" class="accordion" data-target="#@job.Id">
+                        <td>@job.RoleName</td>
+                        <td>@job.Company</td>
+                        <td>@job.Description</td>
+                        <td><a href="@job.Url">@job.Url</a></td>
+                        <td>@job.Date.ToString("MM/dd/yyyy")</td>
+                        <td>@job.Status</td>
+                        <td class="text-center">
+                            <div class="btn-toolbar" role="group">
+                                <form>
+                                    <a asp-controller="JobApplication" asp-route-Id="@job.Id" asp-action="Edit" class="btn btn-primary ">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a asp-controller="JobApplication" asp-route-Id="@job.Id" asp-action="Delete" class="btn btn-danger ">
+                                        <i class="fa fa-trash-alt"></i>
+                                    </a>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Jobs Application exist.</p>
+    }
+
+</div>
+
+
+
